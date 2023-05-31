@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import { Container, IconButton } from "@mui/material";
-import { API } from "aws-amplify";
+import { Amplify, API } from "aws-amplify";
 import ChatHeader from "./components/ChatHeader";
 import ChatMessages from "./components/ChatMessages";
 import AudioControls from "./components/AudioControls";
@@ -22,6 +22,21 @@ const mockMessages = [
 function filterMessageObjects(list) {
   return list.map(({ role, content }) => ({ role, content }));
 }
+
+Amplify.configure({
+  // OPTIONAL - if your API requires authentication
+  Auth: {
+    mandatorySignIn: false,
+  },
+  API: {
+    endpoints: [
+      {
+        name: "api",
+        endpoint: "https://9e4d5ojnzh.execute-api.us-east-1.amazonaws.com/dev",
+      },
+    ],
+  },
+});
 
 function App() {
   const theme = useTheme();
@@ -77,6 +92,7 @@ function App() {
         setMessages((prevMessages) => {
           return prevMessages.filter((message) => message.key !== "thinking");
         });
+        handleBackendResponse(response);
       } catch (error) {
         console.error("Error sending text message:", error);
         alert(error);

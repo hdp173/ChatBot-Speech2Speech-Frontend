@@ -73,8 +73,8 @@ const ChatMessages = ({ messages }) => {
         sx={{
           width: "100%",
           mt: 4,
-          minHeight: "650px",
-          maxHeight: "650px",
+          minHeight: "500px",
+          maxHeight: "500px",
           overflow: "auto",
         }}
       >
